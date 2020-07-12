@@ -1,0 +1,14 @@
+com/focamacho/pigpoop/api/IKnowHowToPoop.java
+ com.focamacho.pigpoop.api.IKnowHowToPoop
+com/focamacho/pigpoop/mixin/ItemEntityMixin.java
+ com.focamacho.pigpoop.mixin.ItemEntityMixin
+com/focamacho/pigpoop/mixin/ItemMixin.java
+ com.focamacho.pigpoop.mixin.ItemMixin
+com/focamacho/pigpoop/item/GoldenPoopItem.java
+ com.focamacho.pigpoop.item.GoldenPoopItem
+com/focamacho/pigpoop/item/PoopItem.java
+ com.focamacho.pigpoop.item.PoopItem
+com/focamacho/pigpoop/mixin/PigEntityMixin.java
+ com.focamacho.pigpoop.mixin.PigEntityMixin
+com/focamacho/pigpoop/PigPoop.java
+ com.focamacho.pigpoop.PigPoop

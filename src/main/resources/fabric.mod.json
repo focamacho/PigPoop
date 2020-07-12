@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "pigpoop",
+  "version": "${version}",
+
+  "name": "Pig Poop",
+  "description": "Pigs can poop!",
+  "authors": [
+    "Focamacho"
+  ],
+  "contact": {
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/pig-poop",
+    "sources": "https://github.com/Focamacho/PigPoop",
+    "issues": "https://github.com/Focamacho/PigPoop/issues"
+  },
+
+  "license": "MIT-1.0",
+  "icon": "assets/pigpoop/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.focamacho.pigpoop.PigPoop"
+    ]
+  },
+  "mixins": [
+    "pigpoop.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric-resource-loader-v0": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

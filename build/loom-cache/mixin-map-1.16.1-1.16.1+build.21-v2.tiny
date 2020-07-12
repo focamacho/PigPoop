@@ -1,0 +1,3 @@
+v1	named	intermediary
+METHOD	com/focamacho/pigpoop/mixin/ItemEntityMixin	()Lnet/minecraft/item/ItemStack;	getStack	method_6983
+METHOD	com/focamacho/pigpoop/mixin/ItemMixin	()Lnet/minecraft/item/Item;	asItem	method_8389
