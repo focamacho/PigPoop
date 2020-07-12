@@ -44,7 +44,7 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
 
         if (!this.world.isClient && this.isAlive() && !this.isBaby() && --this.poopTime <= 0) {
             this.playSound(SoundEvents.BLOCK_HONEY_BLOCK_BREAK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            if(poopItem == Items.AIR) this.dropItem(PigPoop.poop);
+            if(poopItem == null || poopItem == Items.AIR) this.dropItem(PigPoop.poop);
             else {
                 this.dropItem(poopItem);
                 this.poopItem = Items.AIR;
