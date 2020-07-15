@@ -1,9 +1,11 @@
 package com.focamacho.pigpoop.item;
 
+import com.focamacho.pigpoop.config.ConfigHolder;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.*;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
@@ -32,8 +34,14 @@ public class PoopItem extends Item {
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
         if(BoneMealItem.useOnFertilizable(context.getStack(), context.getWorld(), context.getBlockPos())) {
-            BoneMealItem.useOnFertilizable(new ItemStack(Items.BONE_MEAL), context.getWorld(), context.getBlockPos());
-            BoneMealItem.createParticles(context.getWorld(), context.getBlockPos(), 5);
+            int maxTimes = ConfigHolder.poopMeal;
+
+            while(maxTimes > 1) {
+                --maxTimes;
+                BoneMealItem.useOnFertilizable(new ItemStack(Items.BONE_MEAL), context.getWorld(), context.getBlockPos());
+            }
+
+            BoneMealItem.createParticles(context.getWorld(), context.getBlockPos(), 10);
             return ActionResult.SUCCESS;
         }
 
@@ -44,6 +52,6 @@ public class PoopItem extends Item {
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
 
-        tooltip.add(new TranslatableText("pigpoop.tooltip.poop"));
+        if(ConfigHolder.poopMeal > 1) tooltip.add(new LiteralText(new TranslatableText("pigpoop.tooltip.poop").getString().replace("%timesBetter%", Integer.toString(ConfigHolder.poopMeal))));
     }
 }

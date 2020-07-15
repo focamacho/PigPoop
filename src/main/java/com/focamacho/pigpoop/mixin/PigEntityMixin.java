@@ -2,6 +2,7 @@ package com.focamacho.pigpoop.mixin;
 
 import com.focamacho.pigpoop.PigPoop;
 import com.focamacho.pigpoop.api.IKnowHowToPoop;
+import com.focamacho.pigpoop.config.ConfigHolder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ItemSteerable;
 import net.minecraft.entity.Saddleable;
@@ -35,7 +36,7 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
 
     @Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V", at = @At("RETURN"))
     public void onInit(CallbackInfo callbackReference) {
-        this.poopTime = this.random.nextInt(6000) + 6000;
+        this.poopTime = this.random.nextInt(ConfigHolder.maxPoopTime - ConfigHolder.minPoopTime) + ConfigHolder.minPoopTime;
     }
 
     @Override
@@ -47,9 +48,9 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
             if(poopItem == null || poopItem == Items.AIR) this.dropItem(PigPoop.poop);
             else {
                 this.dropItem(poopItem);
-                this.poopItem = Items.AIR;
+                if(!ConfigHolder.infiniteGoldenPoop) this.poopItem = Items.AIR;
             }
-            this.poopTime = this.random.nextInt(6000) + 6000;
+            this.poopTime = this.random.nextInt(ConfigHolder.maxPoopTime - ConfigHolder.minPoopTime) + ConfigHolder.minPoopTime;
         }
     }
 
