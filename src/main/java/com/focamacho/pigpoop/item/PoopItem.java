@@ -41,7 +41,7 @@ public class PoopItem extends Item {
                 BoneMealItem.useOnFertilizable(new ItemStack(Items.BONE_MEAL), context.getWorld(), context.getBlockPos());
             }
 
-            BoneMealItem.createParticles(context.getWorld(), context.getBlockPos(), 10);
+            if(context.getWorld().isClient) BoneMealItem.createParticles(context.getWorld(), context.getBlockPos(), 10);
             return ActionResult.SUCCESS;
         }
 
