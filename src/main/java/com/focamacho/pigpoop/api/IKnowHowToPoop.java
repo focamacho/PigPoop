@@ -6,6 +6,7 @@ public interface IKnowHowToPoop {
 
     int getPoopTime();
     Item getPoopItem();
-    void setPoopItem(Item item);
+    void setPoopItem(Item item, boolean isInfinite);
+    boolean isInfinite();
 
 }

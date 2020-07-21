@@ -2,6 +2,7 @@ package com.focamacho.pigpoop.mixin;
 
 import com.focamacho.pigpoop.PigPoop;
 import com.focamacho.pigpoop.api.IKnowHowToPoop;
+import com.focamacho.pigpoop.config.ConfigHolder;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +28,7 @@ public abstract class ItemMixin {
             if(entity instanceof IKnowHowToPoop) {
                 AnimalEntity animal = (AnimalEntity) entity;
                 if(animal.canEat() && !((IKnowHowToPoop)entity).getPoopItem().equals(PigPoop.golden_poop)) {
-                    ((IKnowHowToPoop)entity).setPoopItem(PigPoop.golden_poop);
+                    ((IKnowHowToPoop)entity).setPoopItem(PigPoop.golden_poop, ConfigHolder.infiniteGoldenPoop);
                     stack.decrement(1);
                     animal.lovePlayer(user);
                     info.setReturnValue(ActionResult.CONSUME);

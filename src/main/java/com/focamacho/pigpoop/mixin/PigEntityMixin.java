@@ -24,14 +24,18 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
 
     private int poopTime;
     private Item poopItem;
+    private boolean isInfinite;
+    private int minPoopTime = ConfigHolder.minPoopTime;
+    private int maxPoopTime = ConfigHolder.maxPoopTime;
 
     protected PigEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Override
-    public void setPoopItem(Item poopItem) {
+    public void setPoopItem(Item poopItem, boolean isInfinite) {
         this.poopItem = poopItem;
+        this.isInfinite = isInfinite;
     }
 
     @Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V", at = @At("RETURN"))
@@ -48,9 +52,9 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
             if(poopItem == null || poopItem == Items.AIR) this.dropItem(PigPoop.poop);
             else {
                 this.dropItem(poopItem);
-                if(!ConfigHolder.infiniteGoldenPoop) this.poopItem = Items.AIR;
+                if(!isInfinite) this.poopItem = Items.AIR;
             }
-            this.poopTime = this.random.nextInt(ConfigHolder.maxPoopTime - ConfigHolder.minPoopTime) + ConfigHolder.minPoopTime;
+            this.poopTime = this.random.nextInt(maxPoopTime - minPoopTime) + minPoopTime;
         }
     }
 
@@ -73,5 +77,10 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
     @Override
     public int getPoopTime() {
         return poopTime;
+    }
+
+    @Override
+    public boolean isInfinite() {
+        return isInfinite;
     }
 }
