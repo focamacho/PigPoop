@@ -45,7 +45,7 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
 
     @Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V", at = @At("RETURN"))
     public void onInit(CallbackInfo callbackReference) {
-        this.poopTime = this.random.nextInt(ConfigHolder.maxPoopTime - ConfigHolder.minPoopTime) + ConfigHolder.minPoopTime;
+        resetPoopTime();
     }
 
     @Override
@@ -59,19 +59,23 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
                 this.dropItem(poopItem);
                 if(!isInfinite) this.poopItem = Items.AIR;
             }
-            this.poopTime = this.random.nextInt(maxPoopTime - minPoopTime) + minPoopTime;
+            resetPoopTime();
         }
     }
 
     @Inject(method = "readCustomDataFromTag", at = @At("HEAD"))
     public void readCustomDataFromTag(CompoundTag tag, CallbackInfo callbackInfo) {
         this.poopItem = ItemStack.fromTag(tag.getCompound("poopItem")).getItem();
+        this.minPoopTime = tag.getInt("minPoopTime");
+        this.maxPoopTime = tag.getInt("maxPoopTime");
     }
 
     @Inject(method = "writeCustomDataToTag", at = @At("HEAD"))
     public void writeCustomDataToTag(CompoundTag tag, CallbackInfo callbackInfo) {
         CompoundTag cTag = new CompoundTag();
         tag.put("poopItem", new ItemStack(poopItem).toTag(cTag));
+        tag.putInt("minPoopTime", minPoopTime);
+        tag.putInt("maxPoopTime", maxPoopTime);
     }
 
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
@@ -81,6 +85,7 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
                 setPoopItem(PigPoop.golden_poop, ConfigHolder.infiniteGoldenPoop);
                 player.getStackInHand(hand).decrement(1);
                 lovePlayer(player);
+                resetPoopTime();
                 info.setReturnValue(ActionResult.CONSUME);
             } else if (player.getStackInHand(hand).getItem() instanceof IPigFood) {
                 IPigFood food = (IPigFood) player.getStackInHand(hand).getItem();
@@ -89,9 +94,14 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
                 maxPoopTime = food.getPoopMaxTime();
                 player.getStackInHand(hand).decrement(1);
                 lovePlayer(player);
+                resetPoopTime();
                 info.setReturnValue(ActionResult.CONSUME);
             }
         }
+    }
+
+    private void resetPoopTime() {
+        this.poopTime = this.random.nextInt(maxPoopTime - minPoopTime) + minPoopTime;
     }
 
     @Override
