@@ -1,5 +1,6 @@
 package com.focamacho.pigpoop.item;
 
+import com.focamacho.pigpoop.PigPoop;
 import com.focamacho.pigpoop.config.ConfigHolder;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -17,8 +18,8 @@ public class PoopItem extends Item {
 
     private FoodComponent food = new FoodComponent.Builder().alwaysEdible().hunger(1).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200),1.0F).build();
 
-    public PoopItem(Settings settings) {
-        super(settings);
+    public PoopItem() {
+        super(new Item.Settings().group(PigPoop.creativeTab));
     }
 
     @Override

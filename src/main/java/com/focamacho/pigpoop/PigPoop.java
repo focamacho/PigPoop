@@ -17,13 +17,10 @@ import net.minecraft.util.registry.Registry;
 
 public class PigPoop implements ModInitializer {
 
-	public static final Item poop = new PoopItem(new Item.Settings());
-	public static final Item golden_poop = new GoldenPoopItem(new Item.Settings());
+	public static final Item poop = new PoopItem();
+	public static final Item golden_poop = new GoldenPoopItem();
 
-	public static final ItemGroup creativeTab = FabricItemGroupBuilder.create(new Identifier("pigpoop")).icon(() -> new ItemStack(poop)).appendItems((consumer) -> {
-		consumer.add(new ItemStack(poop));
-		consumer.add(new ItemStack(golden_poop));
-	}).build();
+	public static final ItemGroup creativeTab = FabricItemGroupBuilder.create(new Identifier("pigpoop")).icon(() -> new ItemStack(poop)).build();
 
 	@Override
 	public void onInitialize() {
