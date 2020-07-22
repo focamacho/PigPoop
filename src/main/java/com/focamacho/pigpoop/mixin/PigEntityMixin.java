@@ -66,7 +66,7 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
             }
             else {
                 this.dropItem(((IPigFood)foodItem).getPoopItem());
-                if(((IPigFood)foodItem).isPoopInfinite()) this.foodItem = null;
+                if(!((IPigFood)foodItem).isPoopInfinite()) this.foodItem = null;
             }
             resetPoopTime();
         }
@@ -89,6 +89,8 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
         if(canEat() && getFoodItem() == null) {
             if (player.getStackInHand(hand).getItem().equals(Items.GOLDEN_CARROT)) {
                 setFoodItem(Items.GOLDEN_CARROT);
+                minPoopTime = ConfigHolder.minPoopTime;
+                maxPoopTime = ConfigHolder.maxPoopTime;
                 player.getStackInHand(hand).decrement(1);
                 lovePlayer(player);
                 resetPoopTime();
