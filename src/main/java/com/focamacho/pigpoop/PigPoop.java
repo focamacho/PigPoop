@@ -7,16 +7,23 @@ import com.focamacho.pigpoop.item.PoopItem;
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.block.ComposterBlock;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class PigPoop implements ModInitializer {
 
-	public static final Item poop = new PoopItem(new Item.Settings().group(ItemGroup.MISC));
-	public static final Item golden_poop = new GoldenPoopItem(new Item.Settings().group(ItemGroup.MISC));
+	public static final Item poop = new PoopItem(new Item.Settings());
+	public static final Item golden_poop = new GoldenPoopItem(new Item.Settings());
+
+	public static final ItemGroup creativeTab = FabricItemGroupBuilder.create(new Identifier("pigpoop")).icon(() -> new ItemStack(poop)).appendItems((consumer) -> {
+		consumer.add(new ItemStack(poop));
+		consumer.add(new ItemStack(golden_poop));
+	}).build();
 
 	@Override
 	public void onInitialize() {
