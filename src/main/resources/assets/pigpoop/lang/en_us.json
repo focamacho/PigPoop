@@ -1,4 +1,5 @@
 {
+  "itemGroup.minecraft.pigpoop": "Pig Poop",
   "item.pigpoop.poop": "Poop",
   "item.pigpoop.golden_poop": "Golden Poop",
   "pigpoop.tooltip.poop": "%timesBetter%x better than Bone Meal",
