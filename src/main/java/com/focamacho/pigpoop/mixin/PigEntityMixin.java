@@ -28,23 +28,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToPoop, ItemSteerable, Saddleable {
 
     private int poopTime;
-    private Item poopItem;
-    private boolean isInfinite;
-    private int minPoopTime = ConfigHolder.minPoopTime;
-    private int maxPoopTime = ConfigHolder.maxPoopTime;
+    private Item foodItem;
+    private int minPoopTime;
+    private int maxPoopTime;
 
     protected PigEntityMixin(EntityType<? extends AnimalEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Override
-    public void setPoopItem(Item poopItem, boolean isInfinite) {
-        this.poopItem = poopItem;
-        this.isInfinite = isInfinite;
+    public void setFoodItem(Item poopItem) {
+        this.foodItem = poopItem;
     }
 
     @Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/world/World;)V", at = @At("RETURN"))
     public void onInit(CallbackInfo callbackReference) {
+        if(foodItem == null) {
+            minPoopTime = ConfigHolder.minPoopTime;
+            maxPoopTime = ConfigHolder.maxPoopTime;
+        } else {
+            minPoopTime = ((IPigFood)foodItem).getPoopMinTime();
+            maxPoopTime = ((IPigFood)foodItem).getPoopMaxTime();
+        }
         resetPoopTime();
     }
 
@@ -54,10 +59,14 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
 
         if (!this.world.isClient && this.isAlive() && !this.isBaby() && --this.poopTime <= 0) {
             this.playSound(SoundEvents.BLOCK_HONEY_BLOCK_BREAK, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-            if(poopItem == null || poopItem == Items.AIR) this.dropItem(PigPoop.poop);
+            if(foodItem == null) this.dropItem(PigPoop.poop);
+            else if(foodItem == Items.GOLDEN_CARROT) {
+                this.dropItem(PigPoop.golden_poop);
+                if(!ConfigHolder.infiniteGoldenPoop) this.foodItem = null;
+            }
             else {
-                this.dropItem(poopItem);
-                if(!isInfinite) this.poopItem = Items.AIR;
+                this.dropItem(((IPigFood)foodItem).getPoopItem());
+                if(((IPigFood)foodItem).isPoopInfinite()) this.foodItem = null;
             }
             resetPoopTime();
         }
@@ -65,31 +74,28 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
 
     @Inject(method = "readCustomDataFromTag", at = @At("HEAD"))
     public void readCustomDataFromTag(CompoundTag tag, CallbackInfo callbackInfo) {
-        this.poopItem = ItemStack.fromTag(tag.getCompound("poopItem")).getItem();
-        this.minPoopTime = tag.getInt("minPoopTime");
-        this.maxPoopTime = tag.getInt("maxPoopTime");
+        this.foodItem = ItemStack.fromTag(tag.getCompound("foodItem")).getItem();
+        if(this.foodItem == Items.AIR) this.foodItem = null;
     }
 
     @Inject(method = "writeCustomDataToTag", at = @At("HEAD"))
     public void writeCustomDataToTag(CompoundTag tag, CallbackInfo callbackInfo) {
         CompoundTag cTag = new CompoundTag();
-        tag.put("poopItem", new ItemStack(poopItem).toTag(cTag));
-        tag.putInt("minPoopTime", minPoopTime);
-        tag.putInt("maxPoopTime", maxPoopTime);
+        tag.put("foodItem", new ItemStack(foodItem).toTag(cTag));
     }
 
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)
     public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> info) {
-        if(canEat() && getPoopItem().equals(PigPoop.poop)) {
+        if(canEat() && getFoodItem() == null) {
             if (player.getStackInHand(hand).getItem().equals(Items.GOLDEN_CARROT)) {
-                setPoopItem(PigPoop.golden_poop, ConfigHolder.infiniteGoldenPoop);
+                setFoodItem(Items.GOLDEN_CARROT);
                 player.getStackInHand(hand).decrement(1);
                 lovePlayer(player);
                 resetPoopTime();
                 info.setReturnValue(ActionResult.CONSUME);
             } else if (player.getStackInHand(hand).getItem() instanceof IPigFood) {
                 IPigFood food = (IPigFood) player.getStackInHand(hand).getItem();
-                setPoopItem(food.getPoopItem(), food.isPoopInfinite());
+                setFoodItem(player.getStackInHand(hand).getItem());
                 minPoopTime = food.getPoopMinTime();
                 maxPoopTime = food.getPoopMaxTime();
                 player.getStackInHand(hand).decrement(1);
@@ -105,8 +111,8 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
     }
 
     @Override
-    public Item getPoopItem() {
-        return poopItem == null || poopItem.equals(Items.AIR) ? PigPoop.poop : poopItem;
+    public Item getFoodItem() {
+        return foodItem;
     }
 
     @Override
@@ -114,8 +120,4 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
         return poopTime;
     }
 
-    @Override
-    public boolean isInfinite() {
-        return isInfinite;
-    }
 }

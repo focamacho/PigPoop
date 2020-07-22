@@ -5,8 +5,7 @@ import net.minecraft.item.Item;
 public interface IKnowHowToPoop {
 
     int getPoopTime();
-    Item getPoopItem();
-    void setPoopItem(Item item, boolean isInfinite);
-    boolean isInfinite();
+    Item getFoodItem();
+    void setFoodItem(Item item);
 
 }
