@@ -8,6 +8,6 @@ public interface IPigFood {
     int getPoopMinTime();
     int getPoopMaxTime();
     boolean isPoopInfinite();
-    void setPoopItem();
+    void setPoopItem(Item item);
 
 }
