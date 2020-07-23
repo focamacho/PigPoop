@@ -18,8 +18,8 @@ public class PoopItem extends Item {
 
     private FoodComponent food = new FoodComponent.Builder().alwaysEdible().hunger(1).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 200),1.0F).build();
 
-    public PoopItem() {
-        super(new Item.Settings().group(PigPoop.creativeTab));
+    public PoopItem(Settings settings) {
+        super(settings);
     }
 
     @Override

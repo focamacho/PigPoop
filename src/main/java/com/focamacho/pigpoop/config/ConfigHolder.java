@@ -8,9 +8,9 @@ public class ConfigHolder {
 
     public static int minPoopTime;
     public static int maxPoopTime;
-    public static int poopMeal = 2;
-    public static int goldenPoopMeal = 20;
-    public static boolean infiniteGoldenPoop = false;
+    public static int poopMeal;
+    public static int goldenPoopMeal;
+    public static boolean infiniteGoldenPoop;
 
     public static void initConfig() {
         config = AutoConfig.getConfigHolder(PigPoopConfig.class).getConfig();

@@ -13,13 +13,14 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.Set;
 
 public class GoldenPoopItem extends Item {
 
     private FoodComponent food = new FoodComponent.Builder().alwaysEdible().hunger(2).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100),1.0F).build();
 
-    public GoldenPoopItem() {
-        super(new Item.Settings().group(PigPoop.creativeTab));
+    public GoldenPoopItem(Settings settings) {
+        super(settings);
     }
 
     @Override
