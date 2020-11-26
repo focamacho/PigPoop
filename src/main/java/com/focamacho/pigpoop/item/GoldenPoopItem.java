@@ -1,6 +1,5 @@
 package com.focamacho.pigpoop.item;
 
-import com.focamacho.pigpoop.PigPoop;
 import com.focamacho.pigpoop.config.ConfigHolder;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -13,7 +12,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 
 import java.util.List;
-import java.util.Set;
 
 public class GoldenPoopItem extends Item {
 

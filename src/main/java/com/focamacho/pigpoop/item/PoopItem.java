@@ -1,6 +1,5 @@
 package com.focamacho.pigpoop.item;
 
-import com.focamacho.pigpoop.PigPoop;
 import com.focamacho.pigpoop.config.ConfigHolder;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
