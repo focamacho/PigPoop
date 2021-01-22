@@ -1,3 +1,4 @@
+# Pig Poop <img src="http://cf.way2muchnoise.eu/full_394853_downloads.svg">
 This mod allows pigs to poop! Pigs produce poop as often as chickens lay eggs.
 If a poop is not collected from the ground within 290 seconds, it will disappear and attempt to fertilize the ground.
 
