@@ -13,7 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -72,16 +72,16 @@ public abstract class PigEntityMixin extends AnimalEntity implements IKnowHowToP
         }
     }
 
-    @Inject(method = "readCustomDataFromTag", at = @At("HEAD"))
-    public void readCustomDataFromTag(CompoundTag tag, CallbackInfo callbackInfo) {
-        this.foodItem = ItemStack.fromTag(tag.getCompound("foodItem")).getItem();
+    @Inject(method = "readCustomDataFromNbt", at = @At("HEAD"))
+    public void readCustomDataFromTag(NbtCompound tag, CallbackInfo callbackInfo) {
+        this.foodItem = ItemStack.fromNbt(tag.getCompound("foodItem")).getItem();
         if(this.foodItem == Items.AIR) this.foodItem = null;
     }
 
-    @Inject(method = "writeCustomDataToTag", at = @At("HEAD"))
-    public void writeCustomDataToTag(CompoundTag tag, CallbackInfo callbackInfo) {
-        CompoundTag cTag = new CompoundTag();
-        tag.put("foodItem", new ItemStack(foodItem).toTag(cTag));
+    @Inject(method = "writeCustomDataToNbt", at = @At("HEAD"))
+    public void writeCustomDataToTag(NbtCompound tag, CallbackInfo callbackInfo) {
+        NbtCompound cTag = new NbtCompound();
+        tag.put("foodItem", new ItemStack(foodItem).writeNbt(cTag));
     }
 
     @Inject(method = "interactMob", at = @At("HEAD"), cancellable = true)

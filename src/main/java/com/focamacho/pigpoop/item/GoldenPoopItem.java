@@ -15,7 +15,7 @@ import java.util.List;
 
 public class GoldenPoopItem extends Item {
 
-    private FoodComponent food = new FoodComponent.Builder().alwaysEdible().hunger(2).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100),1.0F).build();
+    private final FoodComponent food = new FoodComponent.Builder().alwaysEdible().hunger(2).statusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 100),1.0F).build();
 
     public GoldenPoopItem(Settings settings) {
         super(settings);

@@ -26,7 +26,7 @@ public abstract class ItemEntityMixin {
             if(entity.age >= 5800) {
                 BlockPos pos = entity.world.getBlockState(entity.getBlockPos()) instanceof Fertilizable ? entity.getBlockPos() : entity.getBlockPos().down();
                 if(BoneMealItem.useOnFertilizable(this.getStack(), entity.world, pos) && entity.world.isClient()) BoneMealItem.createParticles(entity.world, pos, 5);
-                entity.remove();
+                entity.remove(Entity.RemovalReason.DISCARDED);
             }
         }
     }

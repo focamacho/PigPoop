@@ -1,11 +1,8 @@
 package com.focamacho.pigpoop.config;
 
-import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
-import me.sargunvohra.mcmods.autoconfig1u.shadowed.blue.endless.jankson.Comment;
+import com.focamacho.sealconfig.relocated.blue.endless.jankson.Comment;
 
-@Config(name = "pigpoop")
-public class PigPoopConfig implements ConfigData {
+public class PigPoopConfig {
 
     @Comment(value = "The minimum and maximum time a pig can produce poop(in ticks)")
     int minPoopTime = 6000;
