@@ -23,7 +23,7 @@ public class PoopItem extends Item {
 
     @Override
     public FoodComponent getFoodComponent() {
-        return food;
+        return this.food;
     }
 
     @Override
@@ -33,9 +33,21 @@ public class PoopItem extends Item {
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        if(BoneMealItem.useOnFertilizable(context.getStack(), context.getWorld(), context.getBlockPos())) {
-            int maxTimes = ConfigHolder.poopMeal;
+        return applyPoop(context, ConfigHolder.poopMeal);
+    }
 
+    @Override
+    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+        if(ConfigHolder.poopMeal > 1) tooltip.add(new LiteralText(new TranslatableText("pigpoop.tooltip.poop").getString().replace("%timesBetter%", Integer.toString(ConfigHolder.poopMeal))));
+    }
+
+    protected void appendSuperTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+    }
+
+    protected ActionResult applyPoop(ItemUsageContext context, int maxTimes) {
+        if(BoneMealItem.useOnFertilizable(context.getStack(), context.getWorld(), context.getBlockPos())) {
             while(maxTimes > 1) {
                 --maxTimes;
                 BoneMealItem.useOnFertilizable(new ItemStack(Items.BONE_MEAL), context.getWorld(), context.getBlockPos());
@@ -48,10 +60,4 @@ public class PoopItem extends Item {
         return ActionResult.FAIL;
     }
 
-    @Override
-    public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-        super.appendTooltip(stack, world, tooltip, context);
-
-        if(ConfigHolder.poopMeal > 1) tooltip.add(new LiteralText(new TranslatableText("pigpoop.tooltip.poop").getString().replace("%timesBetter%", Integer.toString(ConfigHolder.poopMeal))));
-    }
 }
