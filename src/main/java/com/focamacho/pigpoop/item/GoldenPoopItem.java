@@ -4,10 +4,10 @@ import com.focamacho.pigpoop.config.ConfigHolder;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
-import net.minecraft.item.*;
-import net.minecraft.text.LiteralText;
+import net.minecraft.item.FoodComponent;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.world.World;
 
@@ -34,6 +34,6 @@ public class GoldenPoopItem extends PoopItem {
     @Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
         appendSuperTooltip(stack, world, tooltip, context);
-        if(ConfigHolder.goldenPoopMeal > 1) tooltip.add(new LiteralText(new TranslatableText("pigpoop.tooltip.golden_poop").getString().replace("%timesBetter%", Integer.toString(ConfigHolder.goldenPoopMeal))));
+        if(ConfigHolder.goldenPoopMeal > 1) tooltip.add(Text.literal(Text.translatable("pigpoop.tooltip.golden_poop").getString().replace("%timesBetter%", Integer.toString(ConfigHolder.goldenPoopMeal))));
     }
 }
