@@ -25,7 +25,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	//Seal Config
-	compileOnly 'com.github.seal-island:sealconfig:1.4.3.1'
+	compileOnly 'com.github.seal-island:sealconfig:1.4.4'
 	include 'com.github.seal-island:sealconfig:1.4.3.1'
 }
 
